@@ -1,1 +1,366 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+    color: #f8fafc;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #fbbf24;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #94a3b8;
+    font-size: 1rem;
+}
+
+.game-controls {
+    background: rgba(15, 23, 42, 0.8);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    border: 1px solid #334155;
+}
+
+.game-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.turn {
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.turn::before {
+    content: '';
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.white-turn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid #f8fafc;
+}
+
+.white-turn::before {
+    background: #f8fafc;
+}
+
+.black-turn {
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid #475569;
+}
+
+.black-turn::before {
+    background: #0f172a;
+}
+
+.status {
+    font-size: 1.3rem;
+    color: #4ade80;
+    font-weight: bold;
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+}
+
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn-primary {
+    background: #3b82f6;
+    color: white;
+}
+
+.btn-secondary {
+    background: #94a3b8;
+    color: white;
+}
+
+.btn-danger {
+    background: #ef4444;
+    color: white;
+}
+
+.btn-sound {
+    background: #8b5cf6;
+    color: white;
+}
+
+.btn-install {
+    background: #10b981;
+    color: white;
+}
+
+.btn-cancel {
+    background: #64748b;
+    color: white;
+}
+
+.btn-small {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+}
+
+.chess-board {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    width: 100%;
+    max-width: 600px;
+    aspect-ratio: 1 / 1;
+    margin: 0 auto 30px;
+    border: 3px solid #475569;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.square {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s ease;
+}
+
+.square:hover {
+    filter: brightness(1.2);
+}
+
+.light {
+    background: #f0d9b5;
+}
+
+.dark {
+    background: #b58863;
+}
+
+.selected {
+    background: rgba(59, 130, 246, 0.5) !important;
+}
+
+.possible-move {
+    position: relative;
+}
+
+.possible-move::after {
+    content: '';
+    position: absolute;
+    width: 30%;
+    height: 30%;
+    background: rgba(34, 197, 94, 0.6);
+    border-radius: 50%;
+}
+
+.piece {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.8rem;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.white-piece {
+    color: #f8fafc;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.black-piece {
+    color: #0f172a;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.captured {
+    opacity: 0.7;
+    transform: scale(0.8);
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+    background: rgba(15, 23, 42, 0.8);
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.stat {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.stat-label {
+    display: block;
+    color: #94a3b8;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #fbbf24;
+}
+
+.instructions {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+}
+
+.instructions h3 {
+    color: #fbbf24;
+    margin-bottom: 10px;
+}
+
+.instructions ul {
+    padding-left: 20px;
+    color: #cbd5e1;
+}
+
+.instructions li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+.pwa-install {
+    background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    text-align: center;
+    border: 2px solid #3b82f6;
+}
+
+.pwa-install p {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    color: #fbbf24;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #94a3b8;
+    border-top: 1px solid #334155;
+    margin-top: 20px;
+}
+
+footer p {
+    margin-bottom: 15px;
+}
+
+/* मोबाइल रेस्पॉन्सिव */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .chess-board {
+        max-width: 95vw;
+    }
+    
+    .piece {
+        font-size: 2.2rem;
+    }
+    
+    .buttons {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+    
+    .game-info {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .piece {
+        font-size: 1.8rem;
+    }
+    
+    .stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .turn {
+        font-size: 1rem;
+        padding: 10px 20px;
+    }
+      }
