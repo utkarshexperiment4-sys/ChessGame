@@ -1,1 +1,124 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1e3a8a">
+    <title>शतरंज गेम - PWA</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>♔ शतरंज गेम ♚</h1>
+            <p class="subtitle">पूर्ण ऑफलाइन PWA - चाइना तकनीक से बना</p>
+        </header>
 
+        <div class="game-controls">
+            <div class="game-info">
+                <div id="turn-indicator" class="turn white-turn">
+                    <span id="turn-text">श्वेत की बारी</span>
+                </div>
+                <div id="game-status" class="status">खेल शुरू करें</div>
+            </div>
+
+            <div class="buttons">
+                <button id="new-game" class="btn btn-primary">नया खेल</button>
+                <button id="undo-move" class="btn btn-secondary">पिछली चाल</button>
+                <button id="reset-game" class="btn btn-danger">रिसेट</button>
+                <button id="toggle-sound" class="btn btn-sound">🔊 ध्वनि</button>
+            </div>
+        </div>
+
+        <div class="chess-board" id="chess-board">
+            <!-- बोर्ड JavaScript से बनेगा -->
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <span class="stat-label">चालें:</span>
+                <span id="move-count" class="stat-value">0</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">समय:</span>
+                <span id="game-time" class="stat-value">00:00</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">श्वेत कब्जे:</span>
+                <span id="white-captures" class="stat-value">0</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">काले कब्जे:</span>
+                <span id="black-captures" class="stat-value">0</span>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3>निर्देश:</h3>
+            <ul>
+                <li>मोहरे पर क्लिक करके चुनें और फिर गंतव्य वर्ग पर क्लिक करें</li>
+                <li>यह ऐप पूरी तरह ऑफलाइन काम करता है</li>
+                <li>फोन पर इंस्टॉल करने के लिए: ⋮ मेनू > "ऐप इंस्टॉल करें"</li>
+            </ul>
+        </div>
+
+        <div class="pwa-install" id="install-prompt" style="display: none;">
+            <p>इस ऐप को अपने फोन पर इंस्टॉल करें!</p>
+            <button id="install-btn" class="btn btn-install">इंस्टॉल करें</button>
+            <button id="cancel-install" class="btn btn-cancel">बाद में</button>
+        </div>
+
+        <footer>
+            <p>PWA शतरंज गेम - चाइना तकनीक से विकसित</p>
+            <button id="offline-test" class="btn btn-small">ऑफलाइन टेस्ट</button>
+        </footer>
+    </div>
+
+    <!-- शतरंज के मोहरों के SVG -->
+    <svg style="display: none;">
+        <defs>
+            <!-- यहाँ SVG आइकन्स होंगे जो JavaScript में उपयोग होंगे -->
+        </defs>
+    </svg>
+
+    <script src="app.js"></script>
+    <script>
+        // PWA इंस्टॉल प्रॉम्प्ट
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js')
+                    .then(reg => console.log('Service Worker पंजीकृत:', reg))
+                    .catch(err => console.log('Service Worker त्रुटि:', err));
+            });
+        }
+
+        // ऐप इंस्टॉल करने का प्रॉम्प्ट
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('install-prompt').style.display = 'block';
+        });
+
+        document.getElementById('install-btn').addEventListener('click', () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then(choice => {
+                    if (choice.outcome === 'accepted') {
+                        console.log('ऐप इंस्टॉल किया गया');
+                    }
+                    deferredPrompt = null;
+                    document.getElementById('install-prompt').style.display = 'none';
+                });
+            }
+        });
+
+        document.getElementById('cancel-install').addEventListener('click', () => {
+            document.getElementById('install-prompt').style.display = 'none';
+        });
+    </script>
+</body>
+  </html>
